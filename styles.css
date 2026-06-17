@@ -1,0 +1,164 @@
+/* ============================================
+   AAPAUBA — Shared Stylesheet
+   Complementa o Tailwind CSS com estilos globais
+   ============================================ */
+
+/* ---------- Fontes ---------- */
+body {
+  font-family: 'Open Sans', 'Plus Jakarta Sans', sans-serif;
+}
+h1, h2, h3, h4 {
+  font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ---------- Scroll suave ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Variáveis ---------- */
+:root {
+  --color-primary: #A66BBE;
+  --color-secondary: #F2C94C;
+  --color-accent: #F28C8C;
+  --color-accent-green: #25D366;
+  --bg-light: #fcfbf8;
+  --bg-dark: #1a1625;
+}
+
+/* ---------- Menu mobile ---------- */
+#mobile-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--bg-light);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(166, 107, 190, 0.15);
+}
+.dark #mobile-menu {
+  background: var(--bg-dark);
+}
+#mobile-menu.open {
+  display: flex;
+}
+#mobile-menu a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.4rem 0;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+#mobile-menu a:hover {
+  color: var(--color-primary);
+}
+
+/* ---------- Dark mode toggle ---------- */
+#dark-toggle {
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  transition: background 0.2s;
+}
+#dark-toggle:hover {
+  background: rgba(166, 107, 190, 0.12);
+}
+
+/* ---------- Navegação ativa ---------- */
+nav a.active {
+  color: var(--color-primary);
+}
+
+/* ---------- Animação de entrada nas seções ---------- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Animal cards — hover overlay ---------- */
+.animal-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(166, 107, 190, 0.18);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.group:hover .animal-card-overlay {
+  opacity: 1;
+}
+
+/* ---------- Toast de formulário ---------- */
+#form-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.85rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 30px rgba(166, 107, 190, 0.35);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+#form-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Link de página ativa no nav ---------- */
+a[data-page].current {
+  color: var(--color-primary) !important;
+}
+
+/* ---------- Scrollbar customizada (Chrome/Edge) ---------- */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(166, 107, 190, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(166, 107, 190, 0.7);
+}
+
+/* ---------- Focus visível (acessibilidade) ---------- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Reduz movimento (acessibilidade) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAPAUBA — Adoção e Proteção Animal</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#A66BBE",
+            "secondary": "#F2C94C",
+            "accent": "#F28C8C",
+            "background-light": "#fcfbf8",
+            "background-dark": "#1a1625",
+          },
+          fontFamily: {
+            "display": ["Poppins", "sans-serif"],
+            "body": ["Open Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
+
+<!-- Toast -->
+<div id="form-toast">✓ Mensagem enviada com sucesso!</div>
+
+<!-- Header / Nav -->
+<header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2 text-primary">
+      <span class="material-symbols-outlined text-4xl">pets</span>
+      <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">AAPAUBA</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a class="text-sm font-semibold hover:text-primary transition-colors" href="#" data-page="index">Início</a>
+      <a class="text-sm font-semibold hover:text-primary transition-colors" href="#sobre">Sobre</a>
+      <a class="text-sm font-semibold hover:text-primary transition-colors" href="#adocao">Adoção</a>
+      <a class="text-sm font-semibold hover:text-primary transition-colors" href="envolver.html" data-page="envolver">Como ajudar</a>
+      <a class="text-sm font-semibold hover:text-primary transition-colors" href="#contato">Contato</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <button id="dark-toggle" title="Alternar tema" aria-label="Alternar modo escuro">
+        <span class="material-symbols-outlined text-2xl" id="dark-icon">dark_mode</span>
+      </button>
+      <a href="#adocao" class="hidden md:inline-flex bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm">
+        Quero adotar
+      </a>
+      <button id="menu-btn" class="md:hidden" aria-label="Abrir menu">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobile-menu">
+    <a href="#">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#adocao">Adoção</a>
+    <a href="envolver.html">Como ajudar</a>
+    <a href="#contato">Contato</a>
+  </div>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="space-y-8 fade-in">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
+          <span class="material-symbols-outlined text-sm">favorite</span>
+          Mais de 500 vidas transformadas
+        </div>
+        <h1 class="text-5xl lg:text-7xl font-bold leading-tight text-slate-900 dark:text-slate-50">
+          Encontre seu <span class="text-primary">melhor amigo</span>
+        </h1>
+        <p class="text-lg text-slate-600 dark:text-slate-300 max-w-lg leading-relaxed">
+          Transforme a vida de um animal e a sua também através da adoção responsável. Milhares de cães e gatos esperam por um lar cheio de amor.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#adocao" class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:scale-105 transition-all">
+            Quero adotar
+          </a>
+          <a href="envolver.html" class="bg-secondary text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-secondary/90 transition-all">
+            Como ajudar
+          </a>
+        </div>
+      </div>
+      <div class="relative group fade-in">
+        <div class="absolute -inset-4 bg-primary/20 rounded-xl blur-2xl group-hover:bg-primary/30 transition-all"></div>
+        <img alt="Cachorro feliz sendo abraçado" class="relative rounded-xl w-full h-[500px] object-cover shadow-2xl border-8 border-white dark:border-slate-800"
+          src="https://images.unsplash.com/photo-1759854726869-7c64281a36ae?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0">
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-20 bg-slate-50 dark:bg-slate-900/50" id="sobre">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="grid grid-cols-2 gap-4 fade-in">
+          <img alt="Gato fofo" class="rounded-xl w-full h-64 object-cover mt-8"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYkfOlFmZXz5-O358uwnc10jgtIw99TA5KxrZjN4QMfQy9UbK9OyhZAt5yLlS2fkm9lvRQXfMBAZetibf9-28VFXbAMz-GJv0ntzFH6VXctx1FIkUbeYA3ghVZtGEyglw0J2CcI7KlUZl6rETzTAEkXr5CiNG7jvV7YTOra0ayxZf2yrG_TJlM49cL9FNs4Q6Ciep8VZOfSmf6kI1P50NeiDAaVDrYrQRje2ELFJha7B_dNc_FdhucGL94VsXT3zSj8P9qepMxWxo">
+          <img alt="Cachorro brincando" class="rounded-xl w-full h-64 object-cover"
+            src="https://s2.glbimg.com/aMY7Ubtl1Hn5ODaTqsqFpTcETkI=/e.glbimg.com/og/ed/f/original/2020/09/20/118943216_770984750316270_7841524941874781227_n.jpg">
+        </div>
+        <div class="space-y-8 fade-in">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-slate-50">Nossa Missão, Visão e Valores</h2>
+          <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">A AAPAUBA é uma ONG dedicada ao resgate, reabilitação e encaminhamento para adoção de animais em situação de vulnerabilidade.</p>
+          <div class="space-y-6">
+            <div class="flex gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+              <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined">flag</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">Missão</h4>
+                <p class="text-slate-500 dark:text-slate-400">Proteger e resgatar animais em situação de risco, garantindo sua dignidade.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+              <div class="w-12 h-12 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary shrink-0">
+                <span class="material-symbols-outlined">visibility</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">Visão</h4>
+                <p class="text-slate-500 dark:text-slate-400">Ser referência nacional em bem-estar animal e adoção consciente até 2026.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 p-4 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700">
+              <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center text-accent shrink-0">
+                <span class="material-symbols-outlined">volunteer_activism</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">Valores</h4>
+                <p class="text-slate-500 dark:text-slate-400">Amor incondicional, transparência, ética e compromisso com a vida.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Animals for Adoption -->
+  <section class="py-20" id="adocao">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 fade-in">
+        <div>
+          <h2 class="text-4xl font-bold mb-4">Conheça nossos protegidos</h2>
+          <p class="text-slate-600 dark:text-slate-400">Filtre por espécie e porte para encontrar seu match perfeito.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <select id="filter-species" class="rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium focus:ring-primary focus:border-primary">
+            <option value="">Todos os animais</option>
+            <option value="cao">Cães</option>
+            <option value="gato">Gatos</option>
+          </select>
+          <select id="filter-size" class="rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium focus:ring-primary focus:border-primary">
+            <option value="">Qualquer porte</option>
+            <option value="pequeno">Pequeno</option>
+            <option value="medio">Médio</option>
+            <option value="grande">Grande</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="animals-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Card Max -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="cao" data-size="medio">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Cachorro Max" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://www.patasdacasa.com.br/sites/default/files/styles/gallery_crop/public/fotos-de-filhotes-de-cachorro-corgi.jpg.webp?itok=vwbYT2eD">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-secondary text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Cão</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Max</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 2 anos</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Médio</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+
+        <!-- Card Luna -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="gato" data-size="pequeno">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Gata Luna" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://img.freepik.com/fotos-gratis/um-gatinho-adoravel-a-caminhar_658552-2.jpg?semt=ais_hybrid&w=740&q=80">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Gato</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Luna</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 6 meses</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Pequeno</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+
+        <!-- Card Zeus -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="cao" data-size="grande">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Cachorro Zeus" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://preview.redd.it/8-years-old-but-still-a-puppy-to-me-v0-3i79bxigw6ye1.jpg?width=640&crop=smart&auto=webp&s=a7e42267b65d279f624cc4605f735c39d76303e6">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-secondary text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Cão</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Zeus</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 4 anos</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Grande</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+
+        <!-- Card Toby -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="gato" data-size="pequeno">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Gato Toby" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://adotar.com.br/FotosPainel/50-fotos-de-gatos-que-tornarao-seu-dia-melhor-18-jpg.jpg">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Gato</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Toby</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 1 ano</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Pequeno</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="no-animals" class="hidden text-center py-16 text-slate-400">
+        <span class="material-symbols-outlined text-5xl mb-3 block">search_off</span>
+        <p class="font-semibold">Nenhum animal encontrado com esses filtros.</p>
+      </div>
+
+      <div class="mt-12 text-center">
+        <button class="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 mx-auto hover:text-primary transition-colors">
+          Ver todos os animais <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Adopt -->
+  <section class="py-20 bg-primary/10" id="ajudar">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl font-bold mb-4">Como adotar?</h2>
+        <p class="text-slate-600 dark:text-slate-400 max-w-xl mx-auto">Um processo seguro para garantir que cada animal encontre a família ideal.</p>
+      </div>
+      <div class="relative">
+        <div class="absolute top-1/2 left-0 w-full h-1 bg-primary/30 -translate-y-1/2 hidden lg:block"></div>
+        <div class="grid lg:grid-cols-5 gap-8">
+          <!-- Steps -->
+          <div class="relative bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm text-center lg:pt-12 fade-in">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl border-4 border-background-light dark:border-background-dark">1</div>
+            <span class="material-symbols-outlined text-4xl text-primary mb-4">mail</span>
+            <h4 class="font-bold mb-2">Contato</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Envie seu interesse pelo site ou rede social.</p>
+          </div>
+          <div class="relative bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm text-center lg:pt-12 fade-in">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl border-4 border-background-light dark:border-background-dark">2</div>
+            <span class="material-symbols-outlined text-4xl text-primary mb-4">assignment_turned_in</span>
+            <h4 class="font-bold mb-2">Triagem</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Entrevista rápida para conhecer seu perfil.</p>
+          </div>
+          <div class="relative bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm text-center lg:pt-12 fade-in">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl border-4 border-background-light dark:border-background-dark">3</div>
+            <span class="material-symbols-outlined text-4xl text-primary mb-4">house</span>
+            <h4 class="font-bold mb-2">Visita</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Conheça o animal pessoalmente no abrigo.</p>
+          </div>
+          <div class="relative bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm text-center lg:pt-12 fade-in">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl border-4 border-background-light dark:border-background-dark">4</div>
+            <span class="material-symbols-outlined text-4xl text-primary mb-4">handshake</span>
+            <h4 class="font-bold mb-2">Adoção</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Assinatura do termo e recepção do pet.</p>
+          </div>
+          <div class="relative bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm text-center lg:pt-12 fade-in">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl border-4 border-background-light dark:border-background-dark">5</div>
+            <span class="material-symbols-outlined text-4xl text-primary mb-4">monitoring</span>
+            <h4 class="font-bold mb-2">Acompanhamento</h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Apoio pós-adoção para adaptação do pet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-20" id="contato">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="bg-slate-900 rounded-3xl p-12 lg:p-20 relative overflow-hidden fade-in">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-primary/20 blur-[100px]"></div>
+        <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+          <div class="text-white space-y-6">
+            <h2 class="text-4xl font-bold">Ainda tem dúvidas?</h2>
+            <p class="text-slate-300 text-lg">Nossa equipe está pronta para te ajudar a encontrar seu novo melhor amigo ou tirar dúvidas sobre doações.</p>
+            <div class="flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary">mail</span>
+                <span>aapauba.doacoes@gmail.com</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary">location_on</span>
+                <span>Ubá, MG</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl">
+            <form id="contact-form" class="space-y-4">
+              <div class="grid md:grid-cols-2 gap-4">
+                <input id="contact-name" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Nome" type="text" required>
+                <input id="contact-email" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="E-mail" type="email" required>
+              </div>
+              <textarea id="contact-msg" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Sua mensagem" rows="4" required></textarea>
+              <button type="submit" class="w-full bg-primary text-white font-bold py-4 rounded-xl hover:shadow-lg hover:bg-primary/90 transition-all">Enviar Mensagem</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900 py-12">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-2 text-primary">
+        <span class="material-symbols-outlined text-3xl">pets</span>
+        <span class="text-xl font-bold text-slate-900 dark:text-slate-100">AAPAUBA</span>
+      </div>
+      <p class="text-sm text-slate-500 leading-relaxed">Promovendo o amor e o respeito aos animais desde 2010. Juntos fazemos a diferença.</p>
+    </div>
+    <div>
+      <h4 class="font-bold mb-6">Links Rápidos</h4>
+      <ul class="space-y-3 text-sm text-slate-500">
+        <li><a class="hover:text-primary" href="#">Início</a></li>
+        <li><a class="hover:text-primary" href="#sobre">Sobre Nós</a></li>
+        <li><a class="hover:text-primary" href="#adocao">Adoção</a></li>
+        <li><a class="hover:text-primary" href="envolver.html">Como Ajudar</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-bold mb-6">Social</h4>
+      <div class="flex gap-4">
+        <a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all" href="https://linktr.ee/aapauba">
+          <span class="material-symbols-outlined">share</span>
+        </a>
+        <a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all" href="#">
+          <span class="material-symbols-outlined">public</span>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h4 class="font-bold mb-6">Localização</h4>
+      <div class="w-full h-32 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+        <span class="material-symbols-outlined text-4xl">map</span>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 pt-12 mt-12 border-t border-slate-100 dark:border-slate-900 text-center text-sm text-slate-400">
+    <p>© 2024 AAPAUBA ONG — Proteção e Adoção. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  // ---- Dark mode ----
+  const html = document.documentElement;
+  const darkIcon = document.getElementById('dark-icon');
+
+  function applyTheme(dark) {
+    html.classList.toggle('dark', dark);
+    darkIcon.textContent = dark ? 'light_mode' : 'dark_mode';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+
+  // Init
+  applyTheme(localStorage.getItem('theme') === 'dark' ||
+    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches));
+
+  document.getElementById('dark-toggle').addEventListener('click', () => {
+    applyTheme(!html.classList.contains('dark'));
+  });
+
+  // ---- Mobile menu ----
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+
+  // ---- Fade-in on scroll ----
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ---- Animal filter ----
+  const speciesSelect = document.getElementById('filter-species');
+  const sizeSelect = document.getElementById('filter-size');
+  const grid = document.getElementById('animals-grid');
+  const noAnimals = document.getElementById('no-animals');
+
+  function filterAnimals() {
+    const species = speciesSelect.value;
+    const size = sizeSelect.value;
+    const cards = grid.querySelectorAll('[data-species]');
+    let visible = 0;
+    cards.forEach(card => {
+      const matchSpecies = !species || card.dataset.species === species;
+      const matchSize = !size || card.dataset.size === size;
+      const show = matchSpecies && matchSize;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    noAnimals.classList.toggle('hidden', visible > 0);
+  }
+
+  speciesSelect.addEventListener('change', filterAnimals);
+  sizeSelect.addEventListener('change', filterAnimals);
+
+  // ---- Contact form ----
+  const toast = document.getElementById('form-toast');
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    toast.classList.add('show');
+    this.reset();
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  });
+
+  // ---- Active nav link ----
+  document.querySelectorAll('[data-page]').forEach(link => {
+    if (link.dataset.page === 'index') link.classList.add('current');
+  });
+</script>
+</body>
+</html>
