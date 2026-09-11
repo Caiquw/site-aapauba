@@ -404,23 +404,24 @@
   let allAnimals = [];
 
   function animalCardHTML(animal) {
-    const badgeClass = animal.species === 'gato' ? 'bg-primary text-white' : 'bg-secondary text-slate-900';
-    const photo = animal.photo_url || 'https://placehold.co/600x400?text=Sem+foto';
+    const badgeClass = animal.especie === 'gato' ? 'bg-primary text-white' : 'bg-secondary text-slate-900';
+    const photo = animal.foto_url || 'https://placehold.co/600x400?text=Sem+foto';
+    const ageText = animal.idade != null ? `${animal.idade} ano(s)` : '—';
     return `
       <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in visible"
-        data-species="${animal.species}" data-size="${animal.size}">
+        data-species="${animal.especie}" data-size="${animal.porte}">
         <div class="relative h-64 overflow-hidden">
-          <img alt="${animal.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="${photo}">
+          <img alt="${animal.nome_apelido}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="${photo}">
           <div class="animal-card-overlay">
             <span class="material-symbols-outlined text-white text-5xl">favorite</span>
           </div>
-          <span class="absolute top-4 left-4 ${badgeClass} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${speciesLabel[animal.species] || animal.species}</span>
+          <span class="absolute top-4 left-4 ${badgeClass} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${speciesLabel[animal.especie] || animal.especie}</span>
         </div>
         <div class="p-5">
-          <h3 class="text-xl font-bold mb-1">${animal.name}</h3>
+          <h3 class="text-xl font-bold mb-1">${animal.nome_apelido}</h3>
           <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
-            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${animal.age || '—'}</span>
-            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> ${sizeLabel[animal.size] || animal.size}</span>
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${ageText}</span>
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> ${sizeLabel[animal.porte] || animal.porte}</span>
           </div>
           <button class="adopt-btn w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors"
             data-id="${animal.id}">Pedir informações / Adotar</button>
@@ -441,7 +442,7 @@
     const { data, error } = await supabaseClient
       .from('animais')
       .select('*')
-      .eq('status', 'disponivel')
+      .eq('adotado', false)
       .order('created_at', { ascending: false });
 
     animalsLoading.classList.add('hidden');
@@ -492,9 +493,9 @@
   function openAdoptModal(animalId) {
     currentAnimal = allAnimals.find(a => String(a.id) === String(animalId));
     if (!currentAnimal) return;
-    adoptModalPhoto.src = currentAnimal.photo_url || 'https://placehold.co/100x100?text=%3A)';
-    adoptModalName.textContent = currentAnimal.name;
-    adoptModalDescription.textContent = currentAnimal.description || '';
+    adoptModalPhoto.src = currentAnimal.foto_url || 'https://placehold.co/100x100?text=%3A)';
+    adoptModalName.textContent = currentAnimal.nome_apelido;
+    adoptModalDescription.textContent = currentAnimal.descricao || '';
     adoptForm.reset();
     adoptModal.classList.remove('hidden');
     adoptModal.classList.add('flex');
@@ -516,7 +517,7 @@
     const phone = document.getElementById('adopt-phone').value.trim();
     const message = document.getElementById('adopt-message').value.trim();
 
-    let text = `Olá! Tenho interesse em adotar/saber mais sobre o(a) ${currentAnimal.name}.\nMeu nome: ${name}`;
+    let text = `Olá! Tenho interesse em adotar/saber mais sobre o(a) ${currentAnimal.nome_apelido}.\nMeu nome: ${name}`;
     if (phone) text += `\nMeu telefone: ${phone}`;
     if (message) text += `\nMensagem: ${message}`;
 
