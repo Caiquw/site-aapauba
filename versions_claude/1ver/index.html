@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -35,7 +34,6 @@
       },
     }
   </script>
-  <script src="config.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
 
@@ -181,58 +179,104 @@
       </div>
 
       <div id="animals-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- preenchido dinamicamente via JS a partir do Supabase -->
+        <!-- Card Max -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="cao" data-size="medio">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Cachorro Max" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://www.patasdacasa.com.br/sites/default/files/styles/gallery_crop/public/fotos-de-filhotes-de-cachorro-corgi.jpg.webp?itok=vwbYT2eD">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-secondary text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Cão</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Max</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 2 anos</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Médio</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+
+        <!-- Card Luna -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="gato" data-size="pequeno">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Gata Luna" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://img.freepik.com/fotos-gratis/um-gatinho-adoravel-a-caminhar_658552-2.jpg?semt=ais_hybrid&w=740&q=80">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Gato</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Luna</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 6 meses</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Pequeno</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+
+        <!-- Card Zeus -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="cao" data-size="grande">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Cachorro Zeus" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://preview.redd.it/8-years-old-but-still-a-puppy-to-me-v0-3i79bxigw6ye1.jpg?width=640&crop=smart&auto=webp&s=a7e42267b65d279f624cc4605f735c39d76303e6">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-secondary text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Cão</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Zeus</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 4 anos</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Grande</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
+
+        <!-- Card Toby -->
+        <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in"
+          data-species="gato" data-size="pequeno">
+          <div class="relative h-64 overflow-hidden">
+            <img alt="Gato Toby" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              src="https://adotar.com.br/FotosPainel/50-fotos-de-gatos-que-tornarao-seu-dia-melhor-18-jpg.jpg">
+            <div class="animal-card-overlay">
+              <span class="material-symbols-outlined text-white text-5xl">favorite</span>
+            </div>
+            <span class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Gato</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-xl font-bold mb-1">Toby</h3>
+            <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 1 ano</span>
+              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> Pequeno</span>
+            </div>
+            <button class="w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors">Ver Perfil</button>
+          </div>
+        </div>
       </div>
 
-      <!-- Carregando -->
-      <div id="animals-loading" class="text-center py-16 text-slate-400">
-        <span class="material-symbols-outlined text-4xl animate-spin block mb-2">progress_activity</span>
-        Carregando animais...
-      </div>
-
-      <!-- Empty state (nenhum animal cadastrado) -->
-      <div id="no-animals-yet" class="hidden text-center py-16 text-slate-400">
-        <span class="material-symbols-outlined text-5xl mb-3 block">pets</span>
-        <p class="font-semibold">Nenhum animal disponível para adoção no momento.</p>
-      </div>
-
-      <!-- Empty state (filtro sem resultado) -->
+      <!-- Empty state -->
       <div id="no-animals" class="hidden text-center py-16 text-slate-400">
         <span class="material-symbols-outlined text-5xl mb-3 block">search_off</span>
         <p class="font-semibold">Nenhum animal encontrado com esses filtros.</p>
       </div>
+
+      <div class="mt-12 text-center">
+        <button class="text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 mx-auto hover:text-primary transition-colors">
+          Ver todos os animais <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </div>
     </div>
   </section>
-
-  <!-- Modal: pedir infos / adotar -->
-  <div id="adopt-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-900/60 px-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-8 relative">
-      <button id="adopt-modal-close" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600" aria-label="Fechar">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <div class="flex items-center gap-3 mb-2">
-        <img id="adopt-modal-photo" src="" alt="" class="w-14 h-14 rounded-full object-cover border-2 border-primary">
-        <div>
-          <p class="text-xs uppercase tracking-wide text-slate-400 font-bold">Pedir informações / adotar</p>
-          <h3 id="adopt-modal-name" class="text-xl font-bold">Nome do animal</h3>
-        </div>
-      </div>
-      <p id="adopt-modal-description" class="text-sm text-slate-500 dark:text-slate-400 mb-6"></p>
-      <form id="adopt-form" class="space-y-4">
-        <input id="adopt-name" type="text" placeholder="Seu nome" required
-          class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary">
-        <input id="adopt-phone" type="tel" placeholder="Seu telefone (opcional)"
-          class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary">
-        <textarea id="adopt-message" rows="3" placeholder="Mensagem (opcional)"
-          class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary"></textarea>
-        <button type="submit"
-          class="w-full flex items-center justify-center gap-2 bg-[var(--color-accent-green)] text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all">
-          <span class="material-symbols-outlined">chat</span> Continuar no WhatsApp
-        </button>
-        <p class="text-xs text-slate-400 text-center">Você será redirecionado ao WhatsApp da nossa equipe com a mensagem pronta.</p>
-      </form>
-    </div>
-  </div>
 
   <!-- How to Adopt -->
   <section class="py-20 bg-primary/10" id="ajudar">
@@ -391,75 +435,11 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // ---- Animais: carregar do Supabase e renderizar ----
+  // ---- Animal filter ----
   const speciesSelect = document.getElementById('filter-species');
   const sizeSelect = document.getElementById('filter-size');
   const grid = document.getElementById('animals-grid');
   const noAnimals = document.getElementById('no-animals');
-  const noAnimalsYet = document.getElementById('no-animals-yet');
-  const animalsLoading = document.getElementById('animals-loading');
-
-  const speciesLabel = { cao: 'Cão', gato: 'Gato' };
-  const sizeLabel = { pequeno: 'Pequeno', medio: 'Médio', grande: 'Grande' };
-  let allAnimals = [];
-
-  function animalCardHTML(animal) {
-    const badgeClass = animal.species === 'gato' ? 'bg-primary text-white' : 'bg-secondary text-slate-900';
-    const photo = animal.photo_url || 'https://placehold.co/600x400?text=Sem+foto';
-    return `
-      <div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all fade-in visible"
-        data-species="${animal.species}" data-size="${animal.size}">
-        <div class="relative h-64 overflow-hidden">
-          <img alt="${animal.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="${photo}">
-          <div class="animal-card-overlay">
-            <span class="material-symbols-outlined text-white text-5xl">favorite</span>
-          </div>
-          <span class="absolute top-4 left-4 ${badgeClass} px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">${speciesLabel[animal.species] || animal.species}</span>
-        </div>
-        <div class="p-5">
-          <h3 class="text-xl font-bold mb-1">${animal.name}</h3>
-          <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
-            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${animal.age || '—'}</span>
-            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">straighten</span> ${sizeLabel[animal.size] || animal.size}</span>
-          </div>
-          <button class="adopt-btn w-full py-3 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors"
-            data-id="${animal.id}">Pedir informações / Adotar</button>
-        </div>
-      </div>`;
-  }
-
-  function renderAnimals(animals) {
-    grid.innerHTML = animals.map(animalCardHTML).join('');
-    grid.querySelectorAll('.adopt-btn').forEach(btn => {
-      btn.addEventListener('click', () => openAdoptModal(btn.dataset.id));
-    });
-    filterAnimals();
-  }
-
-  async function loadAnimals() {
-    animalsLoading.classList.remove('hidden');
-    const { data, error } = await supabaseClient
-      .from('animais')
-      .select('*')
-      .eq('status', 'disponivel')
-      .order('created_at', { ascending: false });
-
-    animalsLoading.classList.add('hidden');
-
-    if (error) {
-      console.error('Erro ao carregar animais:', error.message);
-      noAnimalsYet.classList.remove('hidden');
-      noAnimalsYet.querySelector('p').textContent = 'Não foi possível carregar os animais agora. Tente novamente mais tarde.';
-      return;
-    }
-
-    allAnimals = data;
-    if (allAnimals.length === 0) {
-      noAnimalsYet.classList.remove('hidden');
-      return;
-    }
-    renderAnimals(allAnimals);
-  }
 
   function filterAnimals() {
     const species = speciesSelect.value;
@@ -478,52 +458,6 @@
 
   speciesSelect.addEventListener('change', filterAnimals);
   sizeSelect.addEventListener('change', filterAnimals);
-  loadAnimals();
-
-  // ---- Modal: pedir informações / adotar (redireciona pro WhatsApp) ----
-  const adoptModal = document.getElementById('adopt-modal');
-  const adoptModalClose = document.getElementById('adopt-modal-close');
-  const adoptModalPhoto = document.getElementById('adopt-modal-photo');
-  const adoptModalName = document.getElementById('adopt-modal-name');
-  const adoptModalDescription = document.getElementById('adopt-modal-description');
-  const adoptForm = document.getElementById('adopt-form');
-  let currentAnimal = null;
-
-  function openAdoptModal(animalId) {
-    currentAnimal = allAnimals.find(a => String(a.id) === String(animalId));
-    if (!currentAnimal) return;
-    adoptModalPhoto.src = currentAnimal.photo_url || 'https://placehold.co/100x100?text=%3A)';
-    adoptModalName.textContent = currentAnimal.name;
-    adoptModalDescription.textContent = currentAnimal.description || '';
-    adoptForm.reset();
-    adoptModal.classList.remove('hidden');
-    adoptModal.classList.add('flex');
-  }
-
-  function closeAdoptModal() {
-    adoptModal.classList.add('hidden');
-    adoptModal.classList.remove('flex');
-  }
-
-  adoptModalClose.addEventListener('click', closeAdoptModal);
-  adoptModal.addEventListener('click', (e) => { if (e.target === adoptModal) closeAdoptModal(); });
-
-  adoptForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!currentAnimal) return;
-
-    const name = document.getElementById('adopt-name').value.trim();
-    const phone = document.getElementById('adopt-phone').value.trim();
-    const message = document.getElementById('adopt-message').value.trim();
-
-    let text = `Olá! Tenho interesse em adotar/saber mais sobre o(a) ${currentAnimal.name}.\nMeu nome: ${name}`;
-    if (phone) text += `\nMeu telefone: ${phone}`;
-    if (message) text += `\nMensagem: ${message}`;
-
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-    closeAdoptModal();
-  });
 
   // ---- Contact form ----
   const toast = document.getElementById('form-toast');

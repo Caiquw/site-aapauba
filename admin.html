@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAPAUBA — Painel Admin</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#A66BBE",
+            "secondary": "#F2C94C",
+            "accent": "#F28C8C",
+            "background-light": "#fcfbf8",
+            "background-dark": "#1a1625",
+          },
+          fontFamily: {
+            "display": ["Poppins", "sans-serif"],
+            "body": ["Open Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <script src="config.js"></script>
+</head>
+<body class="bg-background-light text-slate-900 font-body min-h-screen">
+
+<!-- Toast -->
+<div id="admin-toast">✓ Salvo com sucesso!</div>
+
+<!-- Header -->
+<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-primary/10">
+  <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="flex items-center gap-2 text-primary">
+      <span class="material-symbols-outlined text-4xl">pets</span>
+      <span class="text-xl font-bold tracking-tight text-slate-900">AAPAUBA <span class="text-primary font-semibold">/ admin</span></span>
+    </div>
+    <button id="logout-btn" class="hidden items-center gap-2 text-sm font-semibold text-slate-500 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined text-lg">logout</span> Sair
+    </button>
+  </div>
+</header>
+
+<!-- ============== TELA DE LOGIN ============== -->
+<section id="login-screen" class="flex items-center justify-center px-6 py-24">
+  <div class="w-full max-w-sm bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+    <div class="text-center mb-8">
+      <span class="material-symbols-outlined text-5xl text-primary">lock</span>
+      <h1 class="text-2xl font-bold font-display mt-2">Acesso restrito</h1>
+      <p class="text-slate-500 text-sm mt-1">Entre com sua conta de administrador.</p>
+    </div>
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="text-sm font-semibold block mb-1" for="login-email">E-mail</label>
+        <input id="login-email" type="email" required autocomplete="username"
+          class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+      </div>
+      <div>
+        <label class="text-sm font-semibold block mb-1" for="login-password">Senha</label>
+        <input id="login-password" type="password" required autocomplete="current-password"
+          class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+      </div>
+      <p id="login-error" class="hidden text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2"></p>
+      <button type="submit" id="login-submit"
+        class="w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-primary/90 transition-all">
+        Entrar
+      </button>
+    </form>
+    <p class="text-xs text-slate-400 text-center mt-6">
+      Não existe cadastro por aqui — peça para um admin criar seu acesso no painel do Supabase.
+    </p>
+  </div>
+</section>
+
+<!-- ============== PAINEL ADMIN ============== -->
+<main id="admin-screen" class="hidden max-w-6xl mx-auto px-6 py-12 space-y-12">
+
+  <!-- Form: adicionar / editar animal -->
+  <section class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+    <h2 id="form-title" class="text-2xl font-bold font-display mb-6">Adicionar novo animal</h2>
+    <form id="animal-form" class="space-y-5">
+      <input type="hidden" id="animal-id">
+      <input type="hidden" id="existing-photo-url">
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="text-sm font-semibold block mb-1" for="animal-name">Nome</label>
+          <input id="animal-name" type="text" required placeholder="Ex: Max"
+            class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+        </div>
+        <div>
+          <label class="text-sm font-semibold block mb-1" for="animal-age">Idade</label>
+          <input id="animal-age" type="text" placeholder="Ex: 2 anos"
+            class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="text-sm font-semibold block mb-1" for="animal-species">Espécie</label>
+          <select id="animal-species" required class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+            <option value="cao">Cão</option>
+            <option value="gato">Gato</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-semibold block mb-1" for="animal-size">Porte</label>
+          <select id="animal-size" required class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+            <option value="pequeno">Pequeno</option>
+            <option value="medio">Médio</option>
+            <option value="grande">Grande</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-semibold block mb-1" for="animal-status">Status</label>
+          <select id="animal-status" required class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
+            <option value="disponivel">Disponível</option>
+            <option value="adotado">Adotado</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-sm font-semibold block mb-1" for="animal-description">Descrição</label>
+        <textarea id="animal-description" rows="3" placeholder="Personalidade, histórico, cuidados especiais..."
+          class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary"></textarea>
+      </div>
+
+      <div>
+        <label class="text-sm font-semibold block mb-1" for="animal-photo">Foto</label>
+        <input id="animal-photo" type="file" accept="image/*"
+          class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-white file:font-semibold">
+        <p id="current-photo-hint" class="hidden text-xs text-slate-400 mt-1">Já existe uma foto salva — envie uma nova apenas se quiser trocá-la.</p>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button type="submit" id="animal-submit"
+          class="bg-primary text-white font-bold px-8 py-3 rounded-xl hover:bg-primary/90 transition-all disabled:opacity-50">
+          Adicionar animal
+        </button>
+        <button type="button" id="cancel-edit" class="hidden text-slate-500 font-semibold px-6 py-3 hover:text-slate-700">
+          Cancelar edição
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Lista de animais cadastrados -->
+  <section>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold font-display">Animais cadastrados</h2>
+      <span id="animal-count" class="text-sm text-slate-500"></span>
+    </div>
+    <div id="animals-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- preenchido via JS -->
+    </div>
+    <p id="empty-state" class="hidden text-center text-slate-400 py-16">Nenhum animal cadastrado ainda.</p>
+    <p id="loading-state" class="text-center text-slate-400 py-16">Carregando...</p>
+  </section>
+</main>
+
+<script>
+  // ---------------------------------------------------------
+  // Referências de UI
+  // ---------------------------------------------------------
+  const loginScreen = document.getElementById('login-screen');
+  const adminScreen = document.getElementById('admin-screen');
+  const logoutBtn = document.getElementById('logout-btn');
+  const toast = document.getElementById('admin-toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ---------------------------------------------------------
+  // Autenticação
+  // ---------------------------------------------------------
+  const loginForm = document.getElementById('login-form');
+  const loginError = document.getElementById('login-error');
+  const loginSubmit = document.getElementById('login-submit');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.classList.add('hidden');
+    loginSubmit.disabled = true;
+    loginSubmit.textContent = 'Entrando...';
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+    loginSubmit.disabled = false;
+    loginSubmit.textContent = 'Entrar';
+
+    if (error) {
+      loginError.textContent = 'E-mail ou senha incorretos.';
+      loginError.classList.remove('hidden');
+    }
+    // sucesso: onAuthStateChange cuida de trocar de tela
+  });
+
+  logoutBtn.addEventListener('click', () => supabaseClient.auth.signOut());
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    if (session) {
+      loginScreen.classList.add('hidden');
+      adminScreen.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+      logoutBtn.classList.add('flex');
+      loadAnimals();
+    } else {
+      loginScreen.classList.remove('hidden');
+      adminScreen.classList.add('hidden');
+      logoutBtn.classList.add('hidden');
+    }
+  });
+
+  // Checa se já existe sessão ativa ao carregar a página
+  supabaseClient.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      loginScreen.classList.remove('hidden');
+      adminScreen.classList.add('hidden');
+    }
+  });
+
+  // ---------------------------------------------------------
+  // Formulário de adicionar / editar animal
+  // ---------------------------------------------------------
+  const animalForm = document.getElementById('animal-form');
+  const animalIdField = document.getElementById('animal-id');
+  const existingPhotoField = document.getElementById('existing-photo-url');
+  const formTitle = document.getElementById('form-title');
+  const animalSubmit = document.getElementById('animal-submit');
+  const cancelEditBtn = document.getElementById('cancel-edit');
+  const currentPhotoHint = document.getElementById('current-photo-hint');
+
+  function resetForm() {
+    animalForm.reset();
+    animalIdField.value = '';
+    existingPhotoField.value = '';
+    formTitle.textContent = 'Adicionar novo animal';
+    animalSubmit.textContent = 'Adicionar animal';
+    cancelEditBtn.classList.add('hidden');
+    currentPhotoHint.classList.add('hidden');
+  }
+
+  cancelEditBtn.addEventListener('click', resetForm);
+
+  animalForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    animalSubmit.disabled = true;
+    animalSubmit.textContent = 'Salvando...';
+
+    try {
+      let photoUrl = existingPhotoField.value || null;
+      const fileInput = document.getElementById('animal-photo');
+      const file = fileInput.files[0];
+
+      if (file) {
+        const path = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+        const { error: uploadError } = await supabaseClient.storage
+          .from('animais')
+          .upload(path, file);
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabaseClient.storage
+          .from('animais')
+          .getPublicUrl(path);
+        photoUrl = publicUrlData.publicUrl;
+      }
+
+      const payload = {
+        name: document.getElementById('animal-name').value.trim(),
+        species: document.getElementById('animal-species').value,
+        size: document.getElementById('animal-size').value,
+        age: document.getElementById('animal-age').value.trim(),
+        description: document.getElementById('animal-description').value.trim(),
+        status: document.getElementById('animal-status').value,
+        photo_url: photoUrl,
+      };
+
+      const editingId = animalIdField.value;
+      const { error } = editingId
+        ? await supabaseClient.from('animais').update(payload).eq('id', editingId)
+        : await supabaseClient.from('animais').insert(payload);
+
+      if (error) throw error;
+
+      showToast(editingId ? '✓ Animal atualizado!' : '✓ Animal adicionado!');
+      resetForm();
+      loadAnimals();
+    } catch (err) {
+      alert('Erro ao salvar: ' + err.message);
+    } finally {
+      animalSubmit.disabled = false;
+      animalSubmit.textContent = animalIdField.value ? 'Salvar alterações' : 'Adicionar animal';
+    }
+  });
+
+  // ---------------------------------------------------------
+  // Lista / carregar / editar / apagar
+  // ---------------------------------------------------------
+  const animalsList = document.getElementById('animals-list');
+  const emptyState = document.getElementById('empty-state');
+  const loadingState = document.getElementById('loading-state');
+  const animalCount = document.getElementById('animal-count');
+
+  const speciesLabel = { cao: 'Cão', gato: 'Gato' };
+  const sizeLabel = { pequeno: 'Pequeno', medio: 'Médio', grande: 'Grande' };
+
+  async function loadAnimals() {
+    loadingState.classList.remove('hidden');
+    emptyState.classList.add('hidden');
+    animalsList.innerHTML = '';
+
+    const { data, error } = await supabaseClient
+      .from('animais')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    loadingState.classList.add('hidden');
+
+    if (error) {
+      alert('Erro ao carregar animais: ' + error.message);
+      return;
+    }
+
+    animalCount.textContent = `${data.length} animal(is)`;
+
+    if (data.length === 0) {
+      emptyState.classList.remove('hidden');
+      return;
+    }
+
+    data.forEach(animal => {
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm';
+      card.innerHTML = `
+        <div class="h-44 bg-slate-100 overflow-hidden">
+          ${animal.photo_url
+            ? `<img src="${animal.photo_url}" alt="${animal.name}" class="w-full h-full object-cover">`
+            : `<div class="w-full h-full flex items-center justify-center text-slate-300"><span class="material-symbols-outlined text-5xl">pets</span></div>`}
+        </div>
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-bold text-lg">${animal.name}</h3>
+            <span class="text-xs font-bold px-2 py-1 rounded-full ${animal.status === 'adotado' ? 'bg-slate-200 text-slate-600' : 'bg-secondary/30 text-slate-800'}">
+              ${animal.status === 'adotado' ? 'Adotado' : 'Disponível'}
+            </span>
+          </div>
+          <p class="text-sm text-slate-500 mb-3">${speciesLabel[animal.species] || animal.species} · ${sizeLabel[animal.size] || animal.size} · ${animal.age || '—'}</p>
+          <div class="flex gap-2">
+            <button data-id="${animal.id}" class="edit-btn flex-1 py-2 rounded-lg border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-colors">Editar</button>
+            <button data-id="${animal.id}" class="delete-btn py-2 px-3 rounded-lg border-2 border-red-200 text-red-500 font-bold text-sm hover:bg-red-500 hover:text-white transition-colors">
+              <span class="material-symbols-outlined text-sm align-middle">delete</span>
+            </button>
+          </div>
+        </div>
+      `;
+      animalsList.appendChild(card);
+
+      card.querySelector('.edit-btn').addEventListener('click', () => startEdit(animal));
+      card.querySelector('.delete-btn').addEventListener('click', () => deleteAnimal(animal.id));
+    });
+  }
+
+  function startEdit(animal) {
+    animalIdField.value = animal.id;
+    existingPhotoField.value = animal.photo_url || '';
+    document.getElementById('animal-name').value = animal.name;
+    document.getElementById('animal-species').value = animal.species;
+    document.getElementById('animal-size').value = animal.size;
+    document.getElementById('animal-age').value = animal.age || '';
+    document.getElementById('animal-description').value = animal.description || '';
+    document.getElementById('animal-status').value = animal.status;
+
+    formTitle.textContent = `Editando: ${animal.name}`;
+    animalSubmit.textContent = 'Salvar alterações';
+    cancelEditBtn.classList.remove('hidden');
+    currentPhotoHint.classList.toggle('hidden', !animal.photo_url);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function deleteAnimal(id) {
+    if (!confirm('Tem certeza que quer remover este animal? Essa ação não pode ser desfeita.')) return;
+
+    const { error } = await supabaseClient.from('animais').delete().eq('id', id);
+    if (error) {
+      alert('Erro ao apagar: ' + error.message);
+      return;
+    }
+    showToast('✓ Animal removido.');
+    loadAnimals();
+  }
+</script>
+</body>
+</html>
