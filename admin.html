@@ -98,13 +98,13 @@
 
       <div class="grid md:grid-cols-2 gap-4">
         <div>
-          <label class="text-sm font-semibold block mb-1" for="animal-name">Nome</label>
+          <label class="text-sm font-semibold block mb-1" for="animal-name">Nome / apelido</label>
           <input id="animal-name" type="text" required placeholder="Ex: Max"
             class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
         </div>
         <div>
-          <label class="text-sm font-semibold block mb-1" for="animal-age">Idade</label>
-          <input id="animal-age" type="text" placeholder="Ex: 2 anos"
+          <label class="text-sm font-semibold block mb-1" for="animal-breed">Raça</label>
+          <input id="animal-breed" type="text" placeholder="Ex: SRD, Labrador..."
             class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
         </div>
       </div>
@@ -126,11 +126,9 @@
           </select>
         </div>
         <div>
-          <label class="text-sm font-semibold block mb-1" for="animal-status">Status</label>
-          <select id="animal-status" required class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
-            <option value="disponivel">Disponível</option>
-            <option value="adotado">Adotado</option>
-          </select>
+          <label class="text-sm font-semibold block mb-1" for="animal-age">Idade (anos)</label>
+          <input id="animal-age" type="number" min="0" step="1" placeholder="Ex: 2"
+            class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 focus:ring-primary focus:border-primary">
         </div>
       </div>
 
@@ -146,6 +144,11 @@
           class="w-full rounded-xl border-slate-200 bg-slate-50 px-4 py-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-white file:font-semibold">
         <p id="current-photo-hint" class="hidden text-xs text-slate-400 mt-1">Já existe uma foto salva — envie uma nova apenas se quiser trocá-la.</p>
       </div>
+
+      <label class="flex items-center gap-2 cursor-pointer w-fit">
+        <input id="animal-adopted" type="checkbox" class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary">
+        <span class="text-sm font-semibold">Já foi adotado (não aparece mais no site)</span>
+      </label>
 
       <div class="flex gap-3 pt-2">
         <button type="submit" id="animal-submit"
@@ -255,6 +258,7 @@
     animalForm.reset();
     animalIdField.value = '';
     existingPhotoField.value = '';
+    document.getElementById('animal-adopted').checked = false;
     formTitle.textContent = 'Adicionar novo animal';
     animalSubmit.textContent = 'Adicionar animal';
     cancelEditBtn.classList.add('hidden');
@@ -287,13 +291,14 @@
       }
 
       const payload = {
-        name: document.getElementById('animal-name').value.trim(),
-        species: document.getElementById('animal-species').value,
-        size: document.getElementById('animal-size').value,
-        age: document.getElementById('animal-age').value.trim(),
-        description: document.getElementById('animal-description').value.trim(),
-        status: document.getElementById('animal-status').value,
-        photo_url: photoUrl,
+        nome_apelido: document.getElementById('animal-name').value.trim(),
+        especie: document.getElementById('animal-species').value,
+        porte: document.getElementById('animal-size').value,
+        raca: document.getElementById('animal-breed').value.trim() || null,
+        idade: document.getElementById('animal-age').value ? parseInt(document.getElementById('animal-age').value, 10) : null,
+        descricao: document.getElementById('animal-description').value.trim(),
+        adotado: document.getElementById('animal-adopted').checked,
+        foto_url: photoUrl,
       };
 
       const editingId = animalIdField.value;
@@ -354,18 +359,18 @@
       card.className = 'bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm';
       card.innerHTML = `
         <div class="h-44 bg-slate-100 overflow-hidden">
-          ${animal.photo_url
-            ? `<img src="${animal.photo_url}" alt="${animal.name}" class="w-full h-full object-cover">`
+          ${animal.foto_url
+            ? `<img src="${animal.foto_url}" alt="${animal.nome_apelido}" class="w-full h-full object-cover">`
             : `<div class="w-full h-full flex items-center justify-center text-slate-300"><span class="material-symbols-outlined text-5xl">pets</span></div>`}
         </div>
         <div class="p-4">
           <div class="flex items-center justify-between mb-1">
-            <h3 class="font-bold text-lg">${animal.name}</h3>
-            <span class="text-xs font-bold px-2 py-1 rounded-full ${animal.status === 'adotado' ? 'bg-slate-200 text-slate-600' : 'bg-secondary/30 text-slate-800'}">
-              ${animal.status === 'adotado' ? 'Adotado' : 'Disponível'}
+            <h3 class="font-bold text-lg">${animal.nome_apelido}</h3>
+            <span class="text-xs font-bold px-2 py-1 rounded-full ${animal.adotado ? 'bg-slate-200 text-slate-600' : 'bg-secondary/30 text-slate-800'}">
+              ${animal.adotado ? 'Adotado' : 'Disponível'}
             </span>
           </div>
-          <p class="text-sm text-slate-500 mb-3">${speciesLabel[animal.species] || animal.species} · ${sizeLabel[animal.size] || animal.size} · ${animal.age || '—'}</p>
+          <p class="text-sm text-slate-500 mb-3">${speciesLabel[animal.especie] || animal.especie} · ${sizeLabel[animal.porte] || animal.porte} · ${animal.idade != null ? animal.idade + ' ano(s)' : '—'}${animal.raca ? ' · ' + animal.raca : ''}</p>
           <div class="flex gap-2">
             <button data-id="${animal.id}" class="edit-btn flex-1 py-2 rounded-lg border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-colors">Editar</button>
             <button data-id="${animal.id}" class="delete-btn py-2 px-3 rounded-lg border-2 border-red-200 text-red-500 font-bold text-sm hover:bg-red-500 hover:text-white transition-colors">
@@ -383,18 +388,19 @@
 
   function startEdit(animal) {
     animalIdField.value = animal.id;
-    existingPhotoField.value = animal.photo_url || '';
-    document.getElementById('animal-name').value = animal.name;
-    document.getElementById('animal-species').value = animal.species;
-    document.getElementById('animal-size').value = animal.size;
-    document.getElementById('animal-age').value = animal.age || '';
-    document.getElementById('animal-description').value = animal.description || '';
-    document.getElementById('animal-status').value = animal.status;
+    existingPhotoField.value = animal.foto_url || '';
+    document.getElementById('animal-name').value = animal.nome_apelido;
+    document.getElementById('animal-species').value = animal.especie;
+    document.getElementById('animal-size').value = animal.porte;
+    document.getElementById('animal-breed').value = animal.raca || '';
+    document.getElementById('animal-age').value = animal.idade != null ? animal.idade : '';
+    document.getElementById('animal-description').value = animal.descricao || '';
+    document.getElementById('animal-adopted').checked = !!animal.adotado;
 
-    formTitle.textContent = `Editando: ${animal.name}`;
+    formTitle.textContent = `Editando: ${animal.nome_apelido}`;
     animalSubmit.textContent = 'Salvar alterações';
     cancelEditBtn.classList.remove('hidden');
-    currentPhotoHint.classList.toggle('hidden', !animal.photo_url);
+    currentPhotoHint.classList.toggle('hidden', !animal.foto_url);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
