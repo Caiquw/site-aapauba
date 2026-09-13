@@ -223,6 +223,19 @@
         </div>
       </div>
       <p id="adopt-modal-description" class="text-sm text-slate-500 dark:text-slate-400 mb-6"></p>
+
+      <a id="adopt-official-form-btn" href="#" target="_blank" rel="noopener"
+        class="w-full flex items-center justify-center gap-2 bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all mb-3">
+        <span class="material-symbols-outlined">assignment</span> Preencher formulário oficial de adoção
+      </a>
+      <p class="text-xs text-slate-400 text-center mb-5">É o processo oficial da AAPAUBA para adotar este animal.</p>
+
+      <div class="flex items-center gap-3 mb-5">
+        <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+        <span class="text-xs text-slate-400 font-semibold uppercase">ou tire uma dúvida antes</span>
+        <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+      </div>
+
       <form id="adopt-form" class="space-y-4">
         <input id="adopt-name" type="text" placeholder="Seu nome" required
           class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary">
@@ -232,7 +245,7 @@
           class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary"></textarea>
         <button type="submit"
           class="w-full flex items-center justify-center gap-2 bg-[var(--color-accent-green)] text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all">
-          <span class="material-symbols-outlined">chat</span> Continuar no WhatsApp
+          <span class="material-symbols-outlined">chat</span> Falar no WhatsApp
         </button>
         <p class="text-xs text-slate-400 text-center">Você será redirecionado ao WhatsApp da nossa equipe com a mensagem pronta.</p>
       </form>
@@ -500,6 +513,7 @@
   const adoptModalName = document.getElementById('adopt-modal-name');
   const adoptModalDescription = document.getElementById('adopt-modal-description');
   const adoptForm = document.getElementById('adopt-form');
+  const adoptOfficialFormBtn = document.getElementById('adopt-official-form-btn');
   let currentAnimal = null;
 
   function openAdoptModal(animalId) {
@@ -508,6 +522,9 @@
     adoptModalPhoto.src = currentAnimal.foto_url || 'https://placehold.co/100x100?text=%3A)';
     adoptModalName.textContent = currentAnimal.nome_apelido;
     adoptModalDescription.textContent = currentAnimal.descricao || '';
+
+    adoptOfficialFormBtn.href = currentAnimal.especie === 'gato' ? ADOPTION_FORM_URL_CAT : ADOPTION_FORM_URL_DOG;
+
     adoptForm.reset();
     adoptModal.classList.remove('hidden');
     adoptModal.classList.add('flex');

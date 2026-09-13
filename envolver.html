@@ -66,7 +66,7 @@
     <button id="dark-toggle" title="Alternar tema" aria-label="Alternar modo escuro">
       <span class="material-symbols-outlined text-2xl" id="dark-icon">dark_mode</span>
     </button>
-    <a href="index.html#adocao" class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-xl h-11 px-6 bg-primary text-white text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
+    <a id="donate-nav-btn" href="#" target="_blank" rel="noopener" class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-xl h-11 px-6 bg-primary text-white text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
       Doe Agora
     </a>
   </div>
@@ -117,7 +117,7 @@
             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
               Apoie nossos resgates com auxílio financeiro para alimentação de qualidade, cirurgias urgentes e medicamentos diários.
             </p>
-            <button class="w-full py-3 rounded-lg bg-primary text-white font-bold text-sm hover:bg-primary/90 transition-colors">Apoiar Agora</button>
+            <a id="donate-card-btn" href="#" target="_blank" rel="noopener" class="w-full block text-center py-3 rounded-lg bg-primary text-white font-bold text-sm hover:bg-primary/90 transition-colors">Apoiar Agora</a>
           </div>
         </div>
         <!-- Volunteering -->
@@ -130,7 +130,7 @@
             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
               Junte-se à nossa equipe local para cuidar dos animais, gerenciar eventos de adoção ou ajudar na manutenção do abrigo.
             </p>
-            <button class="w-full py-3 rounded-lg border-2 border-accent-coral text-accent-coral font-bold text-sm hover:bg-accent-coral/10 transition-colors">Ser Voluntário</button>
+            <a href="#contato" class="w-full block text-center py-3 rounded-lg border-2 border-accent-coral text-accent-coral font-bold text-sm hover:bg-accent-coral/10 transition-colors">Ser Voluntário</a>
           </div>
         </div>
         <!-- Temporary Home -->
@@ -143,14 +143,14 @@
             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6">
               Abra suas portas para um pet em transição. Você oferece o amor, nós fornecemos a alimentação e o suporte médico.
             </p>
-            <button class="w-full py-3 rounded-lg bg-slate-900 dark:bg-primary text-white font-bold text-sm hover:opacity-90 transition-opacity">Ser um Anfitrião</button>
+            <a href="#contato" class="w-full block text-center py-3 rounded-lg bg-slate-900 dark:bg-primary text-white font-bold text-sm hover:opacity-90 transition-opacity">Ser um Anfitrião</a>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
+    <section id="contato" class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
       <div class="flex flex-col gap-8 fade-in">
         <div>
           <h2 class="text-3xl font-bold mb-4">Entre em Contato</h2>
@@ -283,9 +283,10 @@
     <div class="flex flex-col gap-6">
       <h4 class="text-white font-bold uppercase tracking-widest text-xs">Apoie-nos</h4>
       <ul class="flex flex-col gap-3 text-sm">
-        <li><a class="hover:text-primary transition-colors" href="#">Doação Única</a></li>
-        <li><a class="hover:text-primary transition-colors" href="#">Doação Mensal</a></li>
-        <li><a class="hover:text-primary transition-colors" href="#">Patrocínio Corporativo</a></li>
+        <li><a id="donate-footer-single" class="hover:text-primary transition-colors" href="#" target="_blank" rel="noopener">Doação Única</a></li>
+        <li><a id="donate-footer-monthly" class="hover:text-primary transition-colors" href="#" target="_blank" rel="noopener">Doação Mensal</a></li>
+        <li><a id="donate-footer-corporate" class="hover:text-primary transition-colors" href="#" target="_blank" rel="noopener">Patrocínio Corporativo</a></li>
+        <!-- Sem link definido ainda para a Lista de Desejos -->
         <li><a class="hover:text-primary transition-colors" href="#">Lista de Desejos</a></li>
       </ul>
     </div>
@@ -343,6 +344,15 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ---- Links de doação ----
+  document.getElementById('donate-nav-btn').href = DONATION_URL_SINGLE;
+  document.getElementById('donate-card-btn').href = DONATION_URL_SINGLE;
+  document.getElementById('donate-footer-single').href = DONATION_URL_SINGLE;
+  document.getElementById('donate-footer-monthly').href = DONATION_URL_MONTHLY;
+  // Sem link dedicado de patrocínio corporativo ainda -> direciona pro WhatsApp com contexto
+  document.getElementById('donate-footer-corporate').href =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Tenho interesse em patrocínio corporativo para a AAPAUBA.')}`;
 
   // ---- WhatsApp: link rápido de contato ----
   document.getElementById('whatsapp-quick-link').href = `https://wa.me/${WHATSAPP_NUMBER}`;
