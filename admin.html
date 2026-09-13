@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AAPAUBA — Painel Admin</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -278,6 +279,14 @@
       const file = fileInput.files[0];
 
       if (file) {
+        const MAX_SIZE_MB = 5;
+        if (!file.type.startsWith('image/')) {
+          throw new Error('O arquivo selecionado precisa ser uma imagem.');
+        }
+        if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+          throw new Error(`A foto precisa ter no máximo ${MAX_SIZE_MB}MB. Tente comprimir ou escolher outra imagem.`);
+        }
+
         const path = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
         const { error: uploadError } = await supabaseClient.storage
           .from('animais')

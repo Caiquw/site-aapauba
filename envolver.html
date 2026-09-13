@@ -4,6 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Envolva-se | AAPAUBA</title>
+  <meta name="description" content="Descubra como ajudar a AAPAUBA: adote, seja voluntário, doe ou ofereça um lar temporário para animais resgatados.">
+  <meta property="og:title" content="Envolva-se | AAPAUBA">
+  <meta property="og:description" content="Descubra como ajudar a AAPAUBA: adote, seja voluntário, doe ou ofereça um lar temporário.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -36,6 +43,7 @@
       },
     }
   </script>
+  <script src="config.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
 
@@ -149,7 +157,7 @@
           <p class="text-slate-600 dark:text-slate-400">Tem dúvidas? Estamos aqui para ajudar. Entre em contato pelo formulário ou por nossos canais diretos.</p>
         </div>
         <!-- WhatsApp -->
-        <a class="flex items-center gap-4 p-6 bg-[#25D366]/10 border border-[#25D366]/20 rounded-xl group hover:bg-[#25D366]/20 transition-all" href="#">
+        <a id="whatsapp-quick-link" class="flex items-center gap-4 p-6 bg-[#25D366]/10 border border-[#25D366]/20 rounded-xl group hover:bg-[#25D366]/20 transition-all" href="#" target="_blank" rel="noopener">
           <div class="w-12 h-12 flex items-center justify-center bg-[#25D366] text-white rounded-full">
             <span class="material-symbols-outlined">chat</span>
           </div>
@@ -185,17 +193,19 @@
       <!-- Form -->
       <div class="bg-white dark:bg-slate-800/30 p-8 rounded-2xl border border-primary/10 shadow-xl fade-in">
         <form id="contact-form" class="flex flex-col gap-5">
+          <!-- honeypot anti-spam: campo invisível para humanos, bots costumam preencher -->
+          <input type="text" id="contact-hp" name="website" class="hidden" tabindex="-1" autocomplete="off">
           <div class="flex flex-col gap-2">
             <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Nome Completo</label>
-            <input class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary" placeholder="João da Silva" type="text" required>
+            <input id="contact-name" class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary" placeholder="João da Silva" type="text" required>
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Cidade</label>
-            <input class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary" placeholder="São Paulo, SP" type="text">
+            <input id="contact-city" class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary" placeholder="São Paulo, SP" type="text">
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-sm font-bold text-slate-700 dark:text-slate-300">No que você tem interesse?</label>
-            <select class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary">
+            <select id="contact-interest" class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary">
               <option>Adotar um pet</option>
               <option>Voluntariado</option>
               <option>Informações sobre doações</option>
@@ -205,7 +215,7 @@
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Mensagem</label>
-            <textarea class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary" placeholder="Como podemos te ajudar?" rows="4" required></textarea>
+            <textarea id="contact-message" class="rounded-lg border-primary/20 bg-background-light dark:bg-slate-900 focus:ring-primary focus:border-primary" placeholder="Como podemos te ajudar?" rows="4" required></textarea>
           </div>
           <button type="submit" class="mt-2 py-4 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">Enviar Mensagem</button>
         </form>
@@ -293,9 +303,10 @@
   <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
     <p>© 2024 AAPAUBA. Todos os direitos reservados.</p>
     <div class="flex gap-6">
+      <!-- TROCAR pelo CNPJ real da AAPAUBA antes de publicar -->
       <span>CNPJ: 12.345.678/0001-90</span>
-      <a class="hover:text-white" href="#">Política de Privacidade</a>
-      <a class="hover:text-white" href="#">Termos de Uso</a>
+      <a class="hover:text-white" href="privacidade.html">Política de Privacidade</a>
+      <a class="hover:text-white" href="termos.html">Termos de Uso</a>
     </div>
   </div>
 </footer>
@@ -332,16 +343,33 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // ---- Contact form ----
-  const toast = document.getElementById('form-toast');
+  // ---- WhatsApp: link rápido de contato ----
+  document.getElementById('whatsapp-quick-link').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+  // ---- Contact form (redireciona pro WhatsApp) ----
   document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    toast.classList.add('show');
+
+    // honeypot: se o campo invisível foi preenchido, é bot -> ignora silenciosamente
+    if (document.getElementById('contact-hp').value.trim() !== '') return;
+
+    const name = document.getElementById('contact-name').value.trim();
+    const city = document.getElementById('contact-city').value.trim();
+    const interest = document.getElementById('contact-interest').value;
+    const message = document.getElementById('contact-message').value.trim();
+
+    let text = `Olá! Vim pelo site e tenho interesse em: ${interest}.\nNome: ${name}`;
+    if (city) text += `\nCidade: ${city}`;
+    text += `\nMensagem: ${message}`;
+
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
     this.reset();
-    setTimeout(() => toast.classList.remove('show'), 3500);
   });
 
   // ---- Newsletter ----
+  // Nota: isso ainda é só um "sucesso" visual. Para funcionar de verdade,
+  // precisa de um serviço de e-mail marketing (Mailchimp, Brevo etc.) integrado.
+  const toast = document.getElementById('form-toast');
   document.getElementById('newsletter-btn').addEventListener('click', () => {
     const input = document.getElementById('newsletter-email');
     if (input.value.includes('@')) {

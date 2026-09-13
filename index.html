@@ -4,6 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AAPAUBA — Adoção e Proteção Animal</title>
+  <meta name="description" content="Adote um cão ou gato na AAPAUBA. Conheça os animais disponíveis para adoção em Ubá, MG, e saiba como ajudar nosso trabalho de resgate e proteção animal.">
+  <meta property="og:title" content="AAPAUBA — Adoção e Proteção Animal">
+  <meta property="og:description" content="Conheça os cães e gatos disponíveis para adoção e ajude nosso trabalho de resgate em Ubá, MG.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="favicon.svg">
+  <!-- ATUALIZAR og:url quando o domínio definitivo estiver configurado -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -40,8 +47,6 @@
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
 
 <!-- Toast -->
-<div id="form-toast">✓ Mensagem enviada com sucesso!</div>
-
 <!-- Header / Nav -->
 <header class="sticky top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
   <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -305,6 +310,8 @@
           </div>
           <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl">
             <form id="contact-form" class="space-y-4">
+              <!-- honeypot anti-spam: campo invisível para humanos, bots costumam preencher -->
+              <input type="text" id="contact-hp" name="website" class="hidden" tabindex="-1" autocomplete="off">
               <div class="grid md:grid-cols-2 gap-4">
                 <input id="contact-name" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="Nome" type="text" required>
                 <input id="contact-email" class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="E-mail" type="email" required>
@@ -356,8 +363,12 @@
       </div>
     </div>
   </div>
-  <div class="max-w-7xl mx-auto px-6 pt-12 mt-12 border-t border-slate-100 dark:border-slate-900 text-center text-sm text-slate-400">
+  <div class="max-w-7xl mx-auto px-6 pt-12 mt-12 border-t border-slate-100 dark:border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
     <p>© 2024 AAPAUBA ONG — Proteção e Adoção. Todos os direitos reservados.</p>
+    <div class="flex gap-6">
+      <a class="hover:text-primary" href="privacidade.html">Política de Privacidade</a>
+      <a class="hover:text-primary" href="termos.html">Termos de Uso</a>
+    </div>
   </div>
 </footer>
 
@@ -526,13 +537,23 @@
     closeAdoptModal();
   });
 
-  // ---- Contact form ----
-  const toast = document.getElementById('form-toast');
+  // ---- Contact form (redireciona pro WhatsApp) ----
   document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    toast.classList.add('show');
+
+    // honeypot: se o campo invisível foi preenchido, é bot -> ignora silenciosamente
+    if (document.getElementById('contact-hp').value.trim() !== '') return;
+
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const msg = document.getElementById('contact-msg').value.trim();
+
+    let text = `Olá! Vim pelo site e gostaria de saber mais.\nNome: ${name}`;
+    if (email) text += `\nE-mail: ${email}`;
+    text += `\nMensagem: ${msg}`;
+
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
     this.reset();
-    setTimeout(() => toast.classList.remove('show'), 3500);
   });
 
   // ---- Active nav link ----
